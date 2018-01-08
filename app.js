@@ -1,6 +1,8 @@
 const express = require('express');
+const bodyParser = require("body-parser");
 const authRoutes = require('./routes/auth-routes');
 const profileRoutes = require('./routes/profile-routes');
+const tripRoutes = require('./routes/trip-routes');
 const passportSetup = require('./config/passport-setup');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
@@ -11,6 +13,10 @@ const app = express();
 
 // set up view engine
 app.set('view engine', 'ejs');
+
+// Configure body parser for AJAX requests
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // excrypt cookie and sends it to the browser
 app.use(cookieSession({
@@ -23,6 +29,9 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Set up promises with mongoose
+mongoose.Promise = global.Promise;
+
 //connect to mongodb
 mongoose.connect(keys.mongodb.dbURI, () => {
 	console.log('connected to mongodb');
@@ -30,6 +39,7 @@ mongoose.connect(keys.mongodb.dbURI, () => {
 // set up routes
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
+app.use('/trips', tripRoutes);
 
 
 // create home route
