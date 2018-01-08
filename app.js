@@ -36,7 +36,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongodb.dbURI, () => {
 	console.log('connected to mongodb');
 })
-// set up routes
+// Connect all routes to application
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/trips', tripRoutes);

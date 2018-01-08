@@ -10,8 +10,14 @@ const authCheck = (req,res,next) => {
 	}
 };
 
+//To see server side if user data is being rendered
 router.get('/', authCheck, (req,res) => {
 	res.render('profile', {user: req.user});
 });
+
+//for React returns json object with user data
+router.get("/me", authCheck, (req,res) => {
+	res.json(req.user)
+})
 
 module.exports = router;

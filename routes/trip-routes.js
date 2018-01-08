@@ -11,12 +11,16 @@ const authCheck = (req,res,next) => {
 	}
 };
 
+//To see server side if user data is being rendered
 router.get("/", authCheck, (req,res) => {
+	// res.send("Hello World");
   res.render('trips', {user: req.user});
 });
-  
+ 
+//for React returns json objects
 // Matches with "/api/trips"
-router.route("/")
+router
+  .route("/")
   .get(tripsController.findAll)
   .post(tripsController.create);
 
